@@ -1,0 +1,38 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Environment variables
+.env
+
+# Notebooks
+notebook/
+
+# Database files
+db/*.db
+db/*.db-shm
+db/*.db-wal
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# LangGraph
+.langgraph_api/
+
+# Temp files
+*.log
+*.tmp
+hm_test.txt
+hello.ipynb
