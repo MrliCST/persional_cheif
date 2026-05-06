@@ -14,8 +14,10 @@ wheels/
 
 # Notebooks
 notebook/
+*.ipynb
 
 # Database files
+
 db/*.db
 db/*.db-shm
 db/*.db-wal
