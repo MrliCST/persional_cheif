@@ -1,0 +1,331 @@
+/* ==================== 自定义动画 ==================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease;
+}
+
+.animate-slideUp {
+    animation: slideUp 0.3s ease;
+}
+
+.animate-slideInRight {
+    animation: slideInRight 0.3s ease;
+}
+
+.animate-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ==================== 消息气泡 ==================== */
+.message-bubble {
+    max-width: 85%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.message-bubble.user {
+    align-self: flex-end;
+}
+
+.message-bubble.user .bubble-content {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+    border-radius: 18px 18px 4px 18px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.2);
+}
+
+.message-bubble.ai {
+    align-self: flex-start;
+}
+
+.message-bubble.ai .bubble-content {
+    background: white;
+    color: #1f2937;
+    border-radius: 18px 18px 18px 4px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* 消息出现动画 */
+.message-enter {
+    animation: slideUp 0.3s ease;
+}
+
+/* ==================== 食谱卡片 ==================== */
+.recipe-card {
+    background: linear-gradient(135deg, #fff7ed, #fffbeb);
+    border: 1px solid rgba(249, 115, 22, 0.15);
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+}
+
+.recipe-card:hover {
+    border-color: rgba(249, 115, 22, 0.3);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
+}
+
+.recipe-card .recipe-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #9a3412;
+    margin-bottom: 6px;
+}
+
+.recipe-card .recipe-desc {
+    font-size: 0.85rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+/* ==================== 滚动条美化 ==================== */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Firefox */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+/* ==================== 毛玻璃效果 ==================== */
+.glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.glass-bottom {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* ==================== 弹窗遮罩 ==================== */
+.modal-overlay {
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+    animation: slideUp 0.3s ease;
+}
+
+/* ==================== 输入框 ==================== */
+.chat-input {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    resize: none;
+}
+
+.chat-input:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    outline: none;
+}
+
+/* ==================== 按钮悬停效果 ==================== */
+.btn-hover-scale {
+    transition: all 0.2s ease;
+}
+
+.btn-hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.btn-hover-scale:active {
+    transform: scale(0.95);
+}
+
+/* ==================== 加载动画 ==================== */
+.typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #d1d5db;
+    animation: typing 1.4s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ==================== 空状态 ==================== */
+.empty-state-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+/* ==================== 响应式适配 ==================== */
+@media (max-width: 640px) {
+    .message-bubble {
+        max-width: 92%;
+    }
+    
+    .message-bubble.user .bubble-content {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+    
+    .message-bubble.ai .bubble-content {
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+    
+    .recipe-card {
+        padding: 12px;
+    }
+    
+    .recipe-card .recipe-title {
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .message-bubble {
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .message-bubble {
+        max-width: 70%;
+    }
+}
+
+/* ==================== 打印样式 ==================== */
+@media print {
+    .glass, .glass-bottom, .modal-overlay {
+        display: none !important;
+    }
+    
+    .message-bubble.ai .bubble-content {
+        border: 1px solid #e5e7eb;
+        box-shadow: none;
+    }
+    
+    body {
+        background: white !important;
+    }
+}
+
+/* ==================== 工具类 ==================== */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 图片预览 */
+.image-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.image-preview img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+/* Toast 提示 */
+.toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    animation: slideUp 0.3s ease;
+}
+
+.toast.success {
+    background: #10b981;
+    color: white;
+}
+
+.toast.error {
+    background: #ef4444;
+    color: white;
+}
+
+.toast.info {
+    background: #3b82f6;
+    color: white;
+}

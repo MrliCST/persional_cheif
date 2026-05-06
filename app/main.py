@@ -6,10 +6,16 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1 import chat
 from app.api.v1 import oss
+from app.api.v1 import favorites
+from app.api.v1 import shopping
 from app.common.logger import setup_logging
+from app.db.database import init_tables
 
 # 初始化日志配置
 setup_logging()
+
+# 初始化数据库表
+init_tables()
 
 app = FastAPI(
     title="Personal Chief API",
@@ -30,6 +36,8 @@ app.add_middleware(
 # 2.挂载路由
 app.include_router(chat.router, prefix="/api/v1", tags=["对话"])
 app.include_router(oss.router, prefix="/api/v1", tags=["申请上传签名url"])
+app.include_router(favorites.router, prefix="/api/v1", tags=["收藏"])
+app.include_router(shopping.router, prefix="/api/v1", tags=["购物清单"])
 
 # 3.挂载前端资源
 static_dir = os.path.join(os.path.dirname(__file__), "static")

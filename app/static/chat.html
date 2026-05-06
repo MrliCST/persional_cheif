@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI 私人厨师</title>
+    <meta name="description" content="AI 私人厨师 - 智能食谱推荐与饮食管理">
+    <meta name="theme-color" content="#f97316">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Segoe UI"', 'Roboto', 'sans-serif'],
+                    },
+                    colors: {
+                        apple: {
+                            bg: '#f5f5f7',
+                            card: '#ffffff',
+                            text: '#1d1d1f',
+                            secondary: '#86868b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide 图标 CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* 基础重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* 安全区域适配（iOS） */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            .safe-top {
+                padding-top: env(safe-area-inset-top);
+            }
+            .safe-bottom {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== 主容器 ==================== -->
+    <div id="chat-container" class="flex flex-col h-screen max-w-4xl mx-auto relative">
+
+        <!-- ==================== 顶部导航栏 ==================== -->
+        <header class="glass safe-top z-50 px-4 py-3 flex items-center justify-between">
+            <!-- 左侧 Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                        <path d="M3 6h18"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                </div>
+                <h1 class="text-lg font-bold text-gray-800 tracking-tight">AI 私人厨师</h1>
+            </div>
+
+            <!-- 右侧按钮组 -->
+            <div class="flex items-center gap-1">
+                <!-- 收藏按钮 -->
+                <button id="favorites-btn" class="p-2.5 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all" title="我的收藏">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                </button>
+
+                <!-- 购物清单按钮 -->
+                <button id="shopping-list-btn" class="p-2.5 text-gray-500 hover:text-emerald-500 hover:bg-emerald-50 rounded-xl transition-all" title="购物清单">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m15 11-5 5"/>
+                        <path d="m11 15 5-5"/>
+                        <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                        <path d="M12 3v18"/>
+                    </svg>
+                </button>
+
+                <!-- 历史记录按钮 -->
+                <button id="history-btn" class="p-2.5 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-xl transition-all" title="历史记录">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                    </svg>
+                </button>
+
+                <!-- 分隔线 -->
+                <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
+                <!-- 新对话按钮 -->
+                <button id="new-chat-btn" class="flex items-center gap-1.5 px-3 py-2 bg-orange-500 text-white text-sm font-medium rounded-xl hover:bg-orange-600 transition-all btn-hover-scale shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"/>
+                        <path d="M12 5v14"/>
+                    </svg>
+                    <span class="hidden sm:inline">新对话</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ==================== 对话区域 ==================== -->
+        <main id="messages-area" class="flex-1 overflow-y-auto px-4 py-4 space-y-4 custom-scrollbar" style="background: #f5f5f7;">
+            
+            <!-- 空状态 -->
+            <div id="empty-state" class="flex flex-col items-center justify-center h-full text-center px-6">
+                <div class="empty-state-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                        <path d="M3 6h18"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">你好！我是你的 AI 私人厨师 👨‍🍳</h2>
+                <p class="text-gray-500 text-sm max-w-sm leading-relaxed mb-6">
+                    告诉我你想吃什么，或者上传一张食材照片，我来为你推荐美味食谱！
+                </p>
+                <div class="flex flex-wrap items-center justify-center gap-2">
+                    <span class="px-3 py-1.5 bg-white rounded-full text-sm text-gray-600 shadow-sm border border-gray-100">🥩 红烧肉</span>
+                    <span class="px-3 py-1.5 bg-white rounded-full text-sm text-gray-600 shadow-sm border border-gray-100">🥗 减脂餐</span>
+                    <span class="px-3 py-1.5 bg-white rounded-full text-sm text-gray-600 shadow-sm border border-gray-100">🍝 意大利面</span>
+                    <span class="px-3 py-1.5 bg-white rounded-full text-sm text-gray-600 shadow-sm border border-gray-100">🥘 火锅</span>
+                </div>
+            </div>
+
+            <!-- 消息将动态渲染到这里 -->
+        </main>
+
+        <!-- ==================== 底部输入栏 ==================== -->
+        <footer id="input-area" class="glass-bottom safe-bottom px-4 py-3">
+            <!-- 图片预览 -->
+            <div id="image-preview" class="hidden mb-3"></div>
+
+            <div class="flex items-end gap-2">
+                <!-- 图片上传按钮 -->
+                <button id="image-btn" class="p-2.5 text-gray-400 hover:text-orange-500 hover:bg-orange-50 rounded-xl transition-all flex-shrink-0" title="上传图片">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                </button>
+                <input type="file" id="image-input" accept="image/*" class="hidden" />
+
+                <!-- 消息输入框 -->
+                <div class="flex-1 relative">
+                    <textarea id="message-input" rows="1" placeholder="输入你想吃的菜，或上传食材照片..." 
+                              class="chat-input w-full px-4 py-2.5 bg-white rounded-xl text-sm text-gray-800 placeholder-gray-400"
+                              style="min-height: 42px; max-height: 120px;"></textarea>
+                </div>
+
+                <!-- 发送按钮 -->
+                <button id="send-btn" class="p-2.5 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all btn-hover-scale disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0" title="发送">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"/>
+                        <path d="m12 5 7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==================== JS 文件加载 ==================== -->
+    <!-- API 请求封装 -->
+    <script src="js/api.js"></script>
+    
+    <!-- 收藏模块 -->
+    <script src="js/favorites.js"></script>
+    
+    <!-- 购物清单模块 -->
+    <script src="js/shopping-list.js"></script>
+    
+    <!-- 对话管理模块 -->
+    <script src="js/chat.js"></script>
+
+</body>
+</html>
